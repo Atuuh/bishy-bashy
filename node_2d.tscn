@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnwp4djmecjvo"]
+
+[ext_resource type="Script" path="res://Game.gd" id="1_3bo88"]
+[ext_resource type="PackedScene" uid="uid://db20ut0lby8gg" path="res://zoom_game.tscn" id="2_tgqq4"]
+
+[node name="Root" type="Node2D"]
+script = ExtResource("1_3bo88")
+
+[node name="ZoomGame" parent="." instance=ExtResource("2_tgqq4")]
+
+[connection signal="start_game" from="." to="ZoomGame/Car" method="_on_start_game"]

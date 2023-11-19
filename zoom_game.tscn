@@ -1,0 +1,153 @@
+[gd_scene load_steps=19 format=3 uid="uid://db20ut0lby8gg"]
+
+[ext_resource type="Script" path="res://Car.gd" id="1_rb8ui"]
+[ext_resource type="Texture2D" uid="uid://dmjthfy6fxyiv" path="res://Car.png" id="2_j6k1f"]
+[ext_resource type="Script" path="res://APMCounter.gd" id="3_vj7mo"]
+[ext_resource type="Script" path="res://APM Count.gd" id="4_m2g63"]
+[ext_resource type="Script" path="res://Score.gd" id="5_w1ysx"]
+[ext_resource type="Texture2D" uid="uid://c1m5ue2mc4027" path="res://parallax-00.png" id="6_7abmg"]
+[ext_resource type="Texture2D" uid="uid://djnlllj54fmw2" path="res://parallax-01.png" id="7_w867r"]
+[ext_resource type="Texture2D" uid="uid://cocd6df4l47yk" path="res://parallax-02.png" id="8_4qw7r"]
+[ext_resource type="Texture2D" uid="uid://b643dq7xxcavy" path="res://parallax-03.png" id="9_mwx4g"]
+[ext_resource type="Texture2D" uid="uid://un1cf5uxpcn3" path="res://parallax-04.png" id="10_5c2dw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_duenm"]
+atlas = ExtResource("2_j6k1f")
+region = Rect2(0, 0, 334, 124)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjdc4"]
+atlas = ExtResource("2_j6k1f")
+region = Rect2(334, 0, 334, 124)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k6ye5"]
+atlas = ExtResource("2_j6k1f")
+region = Rect2(668, 0, 334, 124)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64kxx"]
+atlas = ExtResource("2_j6k1f")
+region = Rect2(1002, 0, 334, 124)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ff2m3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_duenm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjdc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k6ye5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64kxx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
+
+[sub_resource type="Curve2D" id="Curve2D_bv4hd"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 100, 500, 0, 0, 0, 0, 937.267, 500, 0, 0, 0, 0, 1575.94, 500)
+}
+point_count = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_r0fke"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_le02o"]
+font_size = 32
+
+[node name="ZoomGame" type="Node"]
+
+[node name="Car" type="Node2D" parent="." node_paths=PackedStringArray("path", "apmCounter", "background", "sprite")]
+position = Vector2(98, 527)
+script = ExtResource("1_rb8ui")
+path = NodePath("../Path2D")
+apmCounter = NodePath("../APM Counter")
+background = NodePath("../ParallaxBackground")
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Car"]
+sprite_frames = SubResource("SpriteFrames_ff2m3")
+frame_progress = 0.753222
+
+[node name="Polygon2D" type="Polygon2D" parent="Car"]
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(-2.22393, 30)
+scale = Vector2(1.02556, 1)
+curve = SubResource("Curve2D_bv4hd")
+
+[node name="APM Counter" type="Node" parent="."]
+script = ExtResource("3_vj7mo")
+
+[node name="GUI" type="Node" parent="."]
+
+[node name="APM Count" type="Label" parent="GUI" node_paths=PackedStringArray("apm")]
+visible = false
+offset_left = 964.0
+offset_top = 8.0
+offset_right = 1115.0
+offset_bottom = 56.0
+text = "APM: 0.00"
+label_settings = SubResource("LabelSettings_r0fke")
+script = ExtResource("4_m2g63")
+apm = NodePath("../../APM Counter")
+
+[node name="Score" type="Label" parent="GUI"]
+offset_left = 16.0
+offset_top = 18.0
+offset_right = 137.0
+offset_bottom = 66.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_le02o")
+script = ExtResource("5_w1ysx")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+offset = Vector2(600, 250)
+transform = Transform2D(1, 0, 0, 1, 600, 250)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2(1, 1.425)
+motion_mirroring = Vector2(1440, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2(1, 1.915)
+texture = ExtResource("6_7abmg")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1440, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(0, 6)
+texture = ExtResource("7_w867r")
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(10, 10)
+motion_mirroring = Vector2(1440, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+position = Vector2(0, 99)
+texture = ExtResource("8_4qw7r")
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(20, 20)
+motion_mirroring = Vector2(1440, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+position = Vector2(0, 106)
+texture = ExtResource("9_mwx4g")
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, 120)
+motion_scale = Vector2(20, 20)
+motion_mirroring = Vector2(1440, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer5"]
+position = Vector2(0, 78)
+scale = Vector2(1, 1.475)
+texture = ExtResource("10_5c2dw")
+
+[connection signal="score_updated" from="Car" to="GUI/Score" method="_on_score_updated"]
